@@ -1,32 +1,32 @@
 #include "monty.h"
 /**
- * pall - A void
- * @stack: A stacks
+ * pall - prints all values on the stack
+ * @stack: pointer to the head of the stack
+ * @line_number: line number in the file
  */
-void pall(stack_s *stack)
+void pall(stack_t **stack, unsigned int line_number)
 {
-	stack_s *temp = stack;
+	stack_t *current = *stack;
 
-	while (temp)
+	(void)line_number;
+
+	while (current)
 	{
-		printf("%d\n", temp->data);
-		temp = temp->next;
+		printf("%d\n", current->n);
+		current = current->next;
 	}
 }
 /**
- * push_opcode - A void
- * @stack: A stack_s
- * @line: A character
- * @line_number: An integer
+ * pint - prints the value at the top of the stack
+ * @stack: pointer to the head of the stack
+ * @line_number: line number in the file
  */
-void push_opcode(stack_s **stack, char *line, int line_number)
+void pint(stack_t **stack, unsigned int line_number)
 {
-	int data = atoi(line);
-
-	if (data == 0 && strcmp(line, "0") != 0)
+	if (!stack || !*stack)
 	{
-		fprintf(stderr, "L%d: usage: push integer\n", line_number);
+		fprintf(stderr, "L%d: can't pint, stack empty\n", line_number);
 		exit(EXIT_FAILURE);
 	}
-	push(stack, data);
+	printf("%d\n", (*stack)->n);
 }

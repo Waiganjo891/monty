@@ -1,31 +1,42 @@
 #include "monty.h"
 /**
- * create_node - A stack_s
- * @n: An integer
- * Return: Always(New node)
+ * push - pushes an element onto the stack
+ * @stack: pointer to the head of the stack
+ * @line_number: line number in the file
  */
-stack_s *create_node(int n)
+void push(stack_t **stack, unsigned int line_number)
 {
-	stack_s *new_node = malloc(sizeof(stack_s));
+	char *num_str;
+	int num;
+	stack_t *new_node;
+
+	if (!stack)
+	{
+		fprintf(stderr, "L%d: Stack not initialized\n", line_number);
+		exit(EXIT_FAILURE);
+	}
+	num_str = strtok(NULL, " ");
+
+	if (!num_str || !isdigit(*num_str))
+	{
+		fprintf(stderr, "L%d: usage: push integer\n", line_number);
+		exit(EXIT_FAILURE);
+	}
+	num = atoi(num_str);
+	new_node = malloc(sizeof(stack_t));
 
 	if (!new_node)
 	{
 		fprintf(stderr, "Error: malloc failed\n");
 		exit(EXIT_FAILURE);
 	}
-	new_node->n = n;
-	new_node->next = NULL;
-	return (new_node);
-}
-/**
- * push - A void
- * @stack: A stack_s
- * @n: An integer
- */
-void push(stack_s **stack, int n)
-{
-	stack_s *new_node = create_node(n);
-
+	new_node->n = num;
+	new_node->prev = NULL;
 	new_node->next = *stack;
+
+	if (*stack)
+	{
+		(*stack)->prev = new_node;
+	}
 	*stack = new_node;
 }
