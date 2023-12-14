@@ -13,6 +13,12 @@ int main(int argc, char *argv[])
 	unsigned int line_number = 0;
 	size_t len = 0;
 	ssize_t read;
+	instruction_t i[] = {
+                {"push", push},
+                {"pall", pall},
+                {NULL, NULL}
+        };
+	instruction_t *a;
 
 	if (argc != 2)
 	{
@@ -20,7 +26,6 @@ int main(int argc, char *argv[])
 		exit(EXIT_FAILURE);
 	}
 	file = fopen(argv[1], "r");
-
 	if (!file)
 	{
 		fprintf(stderr, "Error: Can't open file %s\n", argv[1]);
@@ -30,13 +35,14 @@ int main(int argc, char *argv[])
 	{
 		line_number++;
 		opcode = strtok(opcode, "\n");
-
-		if (strcmp(opcode, "push") == 0)
-			push(&stack, line_number);
-		else if (strcmp(opcode, "pall") == 0)
-			pall(&stack, line_number);
-		else if (strcmp(opcode, "pint") == 0)
-			pint(&stack, line_number);
+		for (a = i; a->opcode != NULL; a++)
+		{
+			if (strcmp(opcode, a->opcode) == 0)
+			{
+				a->f(&stack, line_number);
+				break;
+			}
+		}
 		free(opcode);
 		opcode = NULL;
 	}

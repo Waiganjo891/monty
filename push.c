@@ -6,35 +6,27 @@
  */
 void push(stack_t **stack, unsigned int line_number)
 {
-	char *num_str;
-	int num;
-	stack_t *new_node;
+	char *next_token = strtok(NULL, " \n");
+	int value;
+	stack_t *new_node = malloc(sizeof(stack_t));
 
-	if (!stack)
-	{
-		fprintf(stderr, "L%d: Stack not initialized\n", line_number);
-		exit(EXIT_FAILURE);
-	}
-	num_str = strtok(NULL, " ");
-
-	if (!num_str || !isdigit(*num_str))
+	if (next_token == NULL)
 	{
 		fprintf(stderr, "L%d: usage: push integer\n", line_number);
 		exit(EXIT_FAILURE);
 	}
-	num = atoi(num_str);
-	new_node = malloc(sizeof(stack_t));
+	value = atoi(next_token);
 
-	if (!new_node)
+	if (new_node == NULL)
 	{
 		fprintf(stderr, "Error: malloc failed\n");
 		exit(EXIT_FAILURE);
 	}
-	new_node->n = num;
+	new_node->n = value;
 	new_node->prev = NULL;
 	new_node->next = *stack;
 
-	if (*stack)
+	if (*stack != NULL)
 	{
 		(*stack)->prev = new_node;
 	}
