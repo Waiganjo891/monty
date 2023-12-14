@@ -13,11 +13,7 @@ int main(int argc, char *argv[])
 	unsigned int line_number = 0;
 	size_t len = 0;
 	ssize_t read;
-	instruction_t i[] = {
-                {"push", push},
-                {"pall", pall},
-                {NULL, NULL}
-        };
+	instruction_t i[] = { {"push", push}, {"pall", pall}, {NULL, NULL} };
 	instruction_t *a;
 
 	if (argc != 2)
