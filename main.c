@@ -43,5 +43,5 @@ int main(int argc, char *argv[])
 		opcode = NULL;
 	}
 	fclose(file);
-	return (EXIT_SUCCESS);
+	return (0);
 }
