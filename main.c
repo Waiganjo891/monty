@@ -1,9 +1,9 @@
 #include "monty.h"
 /**
- * main - entry point for the program
- * @argc: argument count
- * @argv: argument vector
- * Return: EXIT_SUCCESS or EXIT_FAILURE
+ * main - Entry point for the program
+ * @argc: Number of arguments
+ * @argv: Array of argument strings
+ * Return: EXIT_SUCCESS on success, EXIT_FAILURE on failure
  */
 int main(int argc, char *argv[])
 {

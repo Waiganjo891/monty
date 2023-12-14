@@ -6,23 +6,23 @@
  */
 void push(stack_t **stack, unsigned int line_number)
 {
-	char *next_token = strtok(NULL, " \n");
-	int value;
+	char *arg = strtok(NULL, " \n\t\r");
+	int num;
 	stack_t *new_node = malloc(sizeof(stack_t));
 
-	if (next_token == NULL)
+	if (arg == NULL || (!isdigit(*arg) && *arg != '-'))
 	{
-		fprintf(stderr, "L%d: usage: push integer\n", line_number);
+		fprintf(stderr, "L%u: usage: push integer\n", line_number);
 		exit(EXIT_FAILURE);
 	}
-	value = atoi(next_token);
+	num = atoi(arg);
 
 	if (new_node == NULL)
 	{
-		fprintf(stderr, "Error: malloc failed\n");
+		perror("Error: malloc failed");
 		exit(EXIT_FAILURE);
 	}
-	new_node->n = value;
+	new_node->n = num;
 	new_node->prev = NULL;
 	new_node->next = *stack;
 
