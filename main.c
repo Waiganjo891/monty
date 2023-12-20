@@ -12,7 +12,7 @@ int main(int argc, char *argv[])
 	char *line = NULL;
 	size_t len = 0;
 	ssize_t read;
-	instruction_t a[] = {{"push", push}, {"pall", pall}, {NULL, NULL}};
+	instruction_t a[] = {{"push", push}, {"pall", pall}, {"pint", pint}, {NULL, NULL}};
 	unsigned int line_number = 0;
 	char *opcode;
 	int i;

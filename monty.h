@@ -40,5 +40,6 @@ typedef struct instruction_s
 void pall(stack_t **stack, unsigned int line_number);
 void push(stack_t **stack, unsigned int line_number);
 void free_stack(stack_t *stack);
+void pint(stack_t **stack, unsigned int line_number);
 
 #endif
