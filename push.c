@@ -1,27 +1,10 @@
-#include"main.h"
+#include "main.h"
 /**
- * pchar - A void
- * @stack: A stack_t
- * @line_number: An unsigned integer.
+ * push - Pushes an element onto the stack
+ * @stack: Pointer to the top of the stack
+ * @line_number: Line number in the file
  */
-void pchar(stack_t **stack, unsigned int line_number)
-{
-	int value;
-
-	if (stack == NULL || *stack == NULL)
-	{
-		fprintf(stderr, "L%d: can't pchar, stack empty\n", line_number);
-		exit(EXIT_FAILURE);
-	}
-	value = pall(stack);
-	printf("%c\n", value);
-}
-/**
- * push - A void
- * @stack: A stack_t
- * @n: An unsigned integer
- */
-void push(stack_t **stack, unsigned int n)
+void push(stack_t **stack, unsigned int line_number)
 {
 	stack_t *new_node = malloc(sizeof(stack_t));
 
@@ -30,12 +13,43 @@ void push(stack_t **stack, unsigned int n)
 		fprintf(stderr, "Error: malloc failed\n");
 		exit(EXIT_FAILURE);
 	}
-	new_node->n = n;
+	new_node->n = line_number;
 	new_node->prev = NULL;
 	new_node->next = *stack;
 	if (*stack != NULL)
-	{
 		(*stack)->prev = new_node;
-	}
 	*stack = new_node;
+}
+
+/**
+ * pall - Prints all the values on the stack
+ * @stack: Pointer to the top of the stack
+ * @line_number: Line number in the file
+ */
+void pall(stack_t **stack, unsigned int line_number)
+{
+	stack_t *current = *stack;
+	(void)line_number;
+
+	while (current)
+	{
+		printf("%d\n", current->n);
+		current = current->next;
+	}
+}
+
+/**
+ * free_stack - Frees the memory allocated for the stack
+ * @stack: Pointer to the top of the stack
+ */
+void free_stack(stack_t *stack)
+{
+	stack_t *current = stack;
+
+	while (current)
+	{
+		stack_t *temp = current;
+		current = current->next;
+		free(temp);
+	}
 }

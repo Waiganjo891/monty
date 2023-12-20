@@ -1,40 +1,61 @@
-#include"main.h"
+#include "main.h"
 /**
- * main - Entry point for the program
- * @argc: Number of arguments
- * @argv: Array of argument strings
- * Return: EXIT_SUCCESS on success, EXIT_FAILURE on failure
+ * main - Entry point
+ * @argc: Argument count
+ * @argv: Argument vector
+ * Return: EXIT_SUCCESS or EXIT_FAILURE
  */
 int main(int argc, char *argv[])
 {
 	FILE *file;
-	char *line = NULL, *opcode;
+	stack_t *stack = NULL;
+	char *line = NULL;
 	size_t len = 0;
 	ssize_t read;
+	instruction_t a[] = {{"push", push}, {"pall", pall}, {NULL, NULL}};
 	unsigned int line_number = 0;
-	stack_t *stack = NULL;
+	char *opcode;
+	int i;
 
 	if (argc != 2)
 	{
-		fprintf(stderr, "Usage: %s <filename>\n", argv[0]);
-		exit(EXIT_FAILURE);
+		fprintf(stderr, "USAGE: monty file\n");
+		return (EXIT_FAILURE);
 	}
 	file = fopen(argv[1], "r");
-	if (file == NULL)
+	if (!file)
 	{
 		fprintf(stderr, "Error: Can't open file %s\n", argv[1]);
-		exit(EXIT_FAILURE);
+		return (EXIT_FAILURE);
 	}
 	while ((read = getline(&line, &len, file)) != -1)
 	{
 		line_number++;
 		opcode = strtok(line, " \t\n");
-		if (opcode == NULL || opcode[0] == '#')
-			continue;
-		execute_opcode(&stack, line_number, opcode);
+		if (opcode)
+		{
+			i = 0;
+			while (a[i].opcode)
+			{
+				if (strcmp(opcode, a[i].opcode) == 0)
+				{
+					a[i].f(&stack, line_number);
+					break;
+				}
+				i++;
+			}
+			if (!a[i].opcode)
+			{
+				fprintf(stderr, "L%u: unknown instruction %s\n", line_number, opcode);
+				fclose(file);
+				free(line);
+				free_stack(stack);
+				return (EXIT_FAILURE);
+			}
+		}
 	}
-	free(line);
-	free_stack(&stack);
 	fclose(file);
-	return (0);
+	free(line);
+	free_stack(stack);
+	return (EXIT_SUCCESS);
 }
