@@ -1,4 +1,4 @@
-#include "main.h"
+#include "monty.h"
 /**
  * push - Pushes an element onto the stack
  * @stack: Pointer to the top of the stack
@@ -49,6 +49,7 @@ void free_stack(stack_t *stack)
 	while (current)
 	{
 		stack_t *temp = current;
+
 		current = current->next;
 		free(temp);
 	}
