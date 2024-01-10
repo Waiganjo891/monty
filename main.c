@@ -43,16 +43,16 @@ int main(int argc, char *argv[])
 			{
 				if (strcmp(opcode, a[i].opcode) == 0)
 				{
-					a[i].f(stack, *line_number);
+					a[i].f(&stack, line_number);
 					break;
 				}
 				i++;
 			}
 			if (!a[i].opcode)
 			{
-				fprintf(stderr, "L%u: unknown instruction %s\n", *line_number, opcode);
+				fprintf(stderr, "L%u: unknown instruction %s\n", line_number, opcode);
 				free(line);
-				free_stack(*stack);
+				free_stack(stack);
 				exit(EXIT_FAILURE);
 			}
 		}
