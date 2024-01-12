@@ -67,6 +67,7 @@ void free_stack(stack_t *stack)
 /**
  * is_integer - An integer
  * @str: A constant character
+ * Return: Always (value)
  */
 int is_integer(const char *str)
 {
@@ -74,9 +75,9 @@ int is_integer(const char *str)
 	{
 		if (!isdigit(*str) && *str != '-' && *str != '+')
 		{
-			return 0;
+			return (0);
 		}
 		str++;
 	}
-	return 1;
+	return (1);
 }
