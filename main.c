@@ -16,6 +16,7 @@ int main(int argc, char *argv[])
 	instruction_t a[] = {
 		{"push", push},
 		{"pall", pall},
+		{"swap", swap},
 		{"pint", pint},
 		{"pop", pop},
 		{NULL, NULL}
