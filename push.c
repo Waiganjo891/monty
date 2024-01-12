@@ -6,15 +6,24 @@
  */
 void push(stack_t **stack, unsigned int line_number)
 {
+	int value;
+	char *arg;
 	stack_t *new_node;
 
+	arg = strtok(NULL, " \t\n");
+	if (arg == NULL || !is_integer(arg))
+	{
+		fprintf(stderr, "L%u: usage: push integer\n", line_number);
+		exit(EXIT_FAILURE);
+	}
+	value = atoi(arg);
 	new_node = malloc(sizeof(stack_t));
 	if (new_node == NULL)
 	{
 		fprintf(stderr, "Error: malloc failed\n");
 		exit(EXIT_FAILURE);
 	}
-	new_node->n = line_number;
+	new_node->n = value;
 	new_node->prev = NULL;
 	new_node->next = *stack;
 	if (*stack != NULL)
@@ -54,4 +63,20 @@ void free_stack(stack_t *stack)
 		current = current->next;
 		free(temp);
 	}
+}
+/**
+ * is_integer - An integer
+ * @str: A constant character
+ */
+int is_integer(const char *str)
+{
+	while (*str)
+	{
+		if (!isdigit(*str) && *str != '-' && *str != '+')
+		{
+			return 0;
+		}
+		str++;
+	}
+	return 1;
 }
